@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <title>Social Feed</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body         { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span>Edit Stock</h1>
+        <a href="/add" class="btn btn-default"><span class="fa fa-user"></span>Add Stock</a>
+        </br>
+        </br>
+        <% if (stocks && stocks.length > 0){ %>
+        <table border=2 width="100%">
+        <%   for( var i = 0; i < stocks.length; i++) { %>
+        <%       var stock = stocks[i]; %>
+            <tr>
+                <td><span class="fa"><%= stock.symbol %></span></td>
+                <td><a href="/delete/<%=stock._id%>" class="btn btn-default btn-sm">Delete</a></td>
+            </tr>               
+        <%   } %>
+        <% } %>
+    </div>
+
+</div>
+</body>
+</html>
