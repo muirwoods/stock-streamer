@@ -1,0 +1,39 @@
+{
+  "name": "stock-streamer",
+  "version": "1.0.0",
+  "description": "real time stock price lookup",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node -- --optional strict --stage 1 -- index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muirwoods/stock-streamer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muirwoods/stock-streamer/issues"
+  },
+  "homepage": "https://github.com/muirwoods/stock-streamer#readme",
+  "dependencies": {
+    "body-parser": "^1.14.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.0",
+    "crypto": "0.0.3",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "express-then": "^1.0.3",
+    "lodash": "^3.10.1",
+    "mongoose": "^4.1.8",
+    "morgan": "^1.6.1",
+    "nodeifyit": "^1.0.2",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "require-dir": "^0.3.0",
+    "songbird": "^1.0.1",
+    "trycatch": "^1.5.20"
+  }
+}
