@@ -20,13 +20,15 @@
         </br>
         <% if (watchlist && watchlist.length > 0){ %>
         <table border=2 width="100%">
-            <th width="65%">Ticker</th>
+            <th width="15%">Ticker</th>
+            <th width="55%">Name</th>
             <th>Price</th>
         <%   for( var i = 0; i < watchlist.length; i++) { %>
         <%       var stock = watchlist[i]; %>
             <tr>
                 <td align='left'><span class="fa"><%= stock.symbol %></span></td>
-                <td align='left'><span class="fa"><%= stock.price %> (<%=stock.change%>%)</span></td>
+                <td align='left'><span class="fa"><%= stock.name %></span></td>
+                <td align='left'><span class="fa"><%= stock.lastTradePriceOnly %> (<%=stock.changeInPercent.toFixed(4)%>%)</span></td>
             </tr>               
         <%   } %>
         <% } %>

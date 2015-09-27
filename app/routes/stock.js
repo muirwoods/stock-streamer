@@ -1,17 +1,24 @@
 let isLoggedIn = require('../middlewares/isLoggedIn')
 let Stock = require('../models/stock');
+let yahooFinance = require('yahoo-finance');
 require('songbird');
+
+async function lookupTicker(symbols){
+    return await yahooFinance.promise.snapshot({
+      symbols: symbols,
+      fields: ['s', 'n', 'd1', 'l1', 'y', 'r','c1', 'p2'],
+    })
+}
 
 async function getWatchlist(req, res) {
   let stocks = await Stock.promise.find({ email: req.user.email });
   let watchlist = []
-  stocks.forEach(stock =>{
-    watchlist.push({
-      symbol: stock.symbol,
-      price: (Math.random() * 100).toFixed(2),
-      change: Math.random().toFixed(2)
+  if (stocks && stocks.length > 0){
+    let stocklist = stocks.map( stock =>{
+      return stock.symbol
     })
-  })
+    watchlist = await lookupTicker(stocklist);
+  }
   res.render('watchlist.ejs', {
     watchlist: watchlist,
     message: req.flash('error')
@@ -41,17 +48,28 @@ async function add (req, res) {
     res.redirect('/add')
     return
   }
+  symbol = symbol.toUpperCase()
+
   let exist = await Stock.promise.findOne({
-    symbol: symbol.toUpperCase(),
+    symbol: symbol,
     email: req.user.email
   });
+
   if (exist){
     req.flash('error', `Ticker symbol: ${symbol} has already been added to watchlist`)
     res.redirect('/add')
     return
   }
+  // make sure it is a valid stock
+  let [valid] = await lookupTicker([symbol]);
+  if (!valid.name){
+    req.flash('error', `Ticker symbol: ${symbol} is not a valid`)
+    res.redirect('/add')
+    return  
+  }
+
   let stock = new Stock()
-  stock.symbol = symbol.toUpperCase()
+  stock.symbol = symbol
   stock.created = new Date()
   stock.email = req.user.email
   stock.save()
