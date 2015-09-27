@@ -6,13 +6,13 @@ module.exports = (app) => {
 
   // Authentication
   app.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/mystock',
+    successRedirect: '/watchlist',
     failureRedirect: '/login',
     failureFlash: true
   }))
 
   app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/mystock',
+    successRedirect: '/watchlist',
     failureRedirect: '/signup',
     failureFlash: true
   }))

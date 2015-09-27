@@ -7,9 +7,6 @@ let StockSchema = mongoose.Schema({
     created: {
         type: Date
     },
-    updated: {
-        type: Date
-    },
     email: {
         type: String
     }

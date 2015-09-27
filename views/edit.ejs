@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Social Feed</title>
+    <title>Edit Stock Symbol</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
@@ -11,9 +11,10 @@
 <body>
 <div class="container">
 
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span>Edit Stock</h1>
-        <a href="/add" class="btn btn-default"><span class="fa fa-user"></span>Add Stock</a>
+    <div class="jumbotron text-center" style="width:70%">
+        <h2>Edit Watchlist</h2>
+        <a href="/watchlist" style="width:100px;" class="btn btn-default btn-sm">Watchlist</a>
+        <a href="/add" style="width:100px;" class="btn btn-default btn-sm">Add Ticker</a>
         </br>
         </br>
         <% if (stocks && stocks.length > 0){ %>
@@ -21,13 +22,12 @@
         <%   for( var i = 0; i < stocks.length; i++) { %>
         <%       var stock = stocks[i]; %>
             <tr>
-                <td><span class="fa"><%= stock.symbol %></span></td>
-                <td><a href="/delete/<%=stock._id%>" class="btn btn-default btn-sm">Delete</a></td>
+                <td width="65%" align='left'><span class="fa"><%= stock.symbol %></span></td>
+                <td><a href="/delete/<%=stock._id%>" style="width:100px;" class="btn btn-default btn-sm">Delete</a></td>
             </tr>               
         <%   } %>
         <% } %>
     </div>
-
 </div>
 </body>
 </html>

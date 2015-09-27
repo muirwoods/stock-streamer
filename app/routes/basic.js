@@ -1,4 +1,3 @@
-let isLoggedIn = require('../middlewares/isLoggedIn')
 
 function logout(req, res) {
   req.logout()
@@ -21,13 +20,6 @@ function showSignup(req, res) {
   })
 }
 
-function getMyStock(req, res) {
-  res.render('mystock.ejs', {
-    user: req.user,
-    message: req.flash('error')
-  })
-}
-
 module.exports = (app) => {
   app.get('/', home)
 
@@ -36,6 +28,4 @@ module.exports = (app) => {
   app.get('/login', showLogin)
 
   app.get('/signup', showSignup)
-
-  app.get('/mystock', isLoggedIn, getMyStock)
 }
