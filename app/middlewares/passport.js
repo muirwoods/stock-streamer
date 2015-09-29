@@ -36,17 +36,14 @@ function configure() {
     passReqToCallback: true
   }, nodeifyit(async (req, email, password) => {
     email = (email || '').toLowerCase()
-console.log('siggggg',email, password)
     // Has user signed up already?
     if(req.user && req.user.email) {
       return [false, {message: 'You have already signed up.'}]
     }
-console.log('finding user')
     if (await User.findOne({'email': email}).exec()) {
       return [false, {message: 'That email is already taken.'}]
     }
     let user = req.user || new User()
-console.log('calling create user', user, email, password)
     let ret = await user.createUser(email, password)
     return ret
   }, {spread: true})))
