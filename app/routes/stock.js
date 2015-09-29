@@ -25,6 +25,28 @@ async function getWatchlist(req, res) {
   })
 }
 
+async function fetchStockQuotes(req, res) {
+  let users = await User.promise.find({});
+  let quotes = []
+
+  if (users && users.length > 0){
+    let emailList = users.map( user =>{
+      return user.email
+    })
+
+    for (email in emailList) {
+      let stocks = await Stock.promise.find({ email: req.user.email });
+      if (stocks && stocks.length > 0){
+        let stocklist = stocks.map( stock =>{
+          return stock.symbol
+        })
+        quotes = await lookupTicker(stocklist);
+      }
+    }
+  }
+  return quotes
+}
+
 async function getEdit(req, res) {
   let stocks = await Stock.promise.find({ email: req.user.email });
   res.render('edit.ejs', {

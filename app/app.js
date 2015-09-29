@@ -8,8 +8,11 @@ let bodyParser = require('body-parser')
 let session = require('express-session')
 let mongoose = require('mongoose')
 let flash = require('connect-flash')
+let io = require('socket.io')
 let passportMiddleware = require('./middlewares/passport')
+let browserify = require('browserify-middleware')
 let routes = requireDir('./routes', {recurse: true})
+let {fetchStockQuotes} = require('./lib/stock')
 
 require('songbird')
 
@@ -29,6 +32,9 @@ class App {
 
     app.set('views', path.join(__dirname, '..', 'views'))
     app.set('view engine', 'ejs')
+
+    browserify.settings({transform: ['babelify']})
+    app.use('/js/index.js', browserify('./public/js/index.js'))
 
     this.sessionMiddleware = session({
       secret: 'ilovethenodejs',
@@ -51,6 +57,26 @@ class App {
       routes[key](app)
     }
     this.server = Server(app)
+
+    this.io = io(this.server)
+
+    this.setupIo() 
+
+    this.io.use(
+      (socket, next) => {
+        this.sessionMiddleware(socket.request, socket.request.res, next)
+      })
+
+    this.io.use(
+      (socket, next) => {
+            initializedPassport(socket.request, socket.request.res, next)
+    })
+    
+    this.io.use(
+      (socket, next) => {
+            passportSessions(socket.request, socket.request.res, next)
+    }) 
+
   }
 
   async initialize(port) {
@@ -62,6 +88,42 @@ class App {
     ])
     
     return this
+  }
+
+  setupIo() {
+
+    // And add some connection listeners:
+    this.io.on('connection', socket => {
+      console.log('a user connected')
+
+      socket.on('disconnect', () => clearInterval(intervalId))
+
+      let email
+      if (socket.request.user) {
+        email = socket.request.user.email
+        if (email) {
+          console.log("User Email", email)
+          socket.id = email
+        }
+      }
+     
+      let intervalId = setInterval(async ()=> {
+        console.log("Invoking fetchStockQuotes...")
+        let stockUpdates = await fetchStockQuotes(socket.request, socket.request.res)
+        console.log("No of connected clients: ", this.io.sockets.sockets.length)
+
+        for (let i = 0; i < this.io.sockets.sockets.length; i++ ) {
+          let socketId = this.io.sockets.sockets[i].id
+          console.log ("Watchlist for socketId: ", socketId , " is ",
+             stockUpdates.get(socketId))
+          if (stockUpdates.get(socketId)) {
+            this.io.to(socketId).emit('stock-updates', stockUpdates.get(socketId))
+          }
+        }
+      }, 15000)
+
+    })
+    console.log("SetupIO done!")
   }
 }
 
