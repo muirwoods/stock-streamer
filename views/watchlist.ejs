@@ -7,12 +7,22 @@
     <style>
         body         { padding-top:80px; }
     </style>
+    <script src="/js/index.js"></script>
 </head>
 <body>
 <div class="container">
 
     <div class="jumbotron text-center" style="width:70%">
         <h2>Watchlist</h2>
+        <a href="#" onclick="if(window.socketio.connected){
+              document.getElementById('spbutton').innerHTML = 'Resume Streaming';
+              window.socketio.disconnect();
+            }else{
+              document.getElementById('spbutton').innerHTML = 'Pause Streaming';
+              window.socketio.connect();   
+        }" style="width:150px;" class="btn btn-default btn-sm"><span id="spbutton">Pause Streaming</span></a>
+
+
         <a href="/" style="width:100px;" class="btn btn-default btn-sm">Home</a>
         <a href="/edit" style="width:100px;" class="btn btn-default btn-sm">Edit Watchlist</a>
         <a href="/logout" style="width:100px;" class="btn btn-default btn-sm">Logout</a>
@@ -36,5 +46,4 @@
 
 </div>
 </body>
-<script src="/js/index.js"></script>
 </html>
