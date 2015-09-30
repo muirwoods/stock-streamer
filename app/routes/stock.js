@@ -49,7 +49,7 @@ async function add (req, res) {
     return
   }
   // make sure it is a valid stock
-  let [valid] = await lookupTicker([symbol]);
+  let [valid] = await stocklib.lookupTicker([symbol]);
   if (!valid.name){
     req.flash('error', `Ticker symbol: ${symbol} is not a valid`)
     res.redirect('/add')
