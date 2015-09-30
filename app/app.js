@@ -104,23 +104,16 @@ class App {
         email = socket.request.user.email
         if (email) {
           console.log("User Email", email)
-          socket.id = email
         }
       }
      
       let intervalId = setInterval(async ()=> {
         console.log("Invoking fetchStockQuotes...")
-        let stockUpdates = await fetchStockQuotes(socket.request, socket.request.res)
+        let watchlist = await fetchStockQuotes(email)
         console.log("No of connected clients: ", this.io.sockets.sockets.length)
-
-        for (let i = 0; i < this.io.sockets.sockets.length; i++ ) {
-          let socketId = this.io.sockets.sockets[i].id
-          console.log ("Watchlist for socketId: ", socketId , " is ",
-             stockUpdates.get(socketId))
-          if (stockUpdates.get(socketId)) {
-            this.io.to(socketId).emit('stock-updates', stockUpdates.get(socketId))
-          }
-        }
+        console.log('iddddddddd', socket.id)
+        console.log('wwwwwwwwwwatttt', watchlist)
+        this.io.to(socket.id).emit('stock-updates', {watchlist})
       }, 15000)
 
     })
