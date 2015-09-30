@@ -98,7 +98,11 @@ class App {
     this.io.on('connection', socket => {
       console.log('a user connected')
 
-      socket.on('disconnect', () => clearInterval(intervalId))
+      socket.on('disconnect', () => {
+        console.log('client disconnect')
+        clearInterval(intervalId)
+      })
+
       let email
       if (socket.request.user) {
         email = socket.request.user.email
