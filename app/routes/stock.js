@@ -1,50 +1,16 @@
 let isLoggedIn = require('../middlewares/isLoggedIn')
 let Stock = require('../models/stock');
 let yahooFinance = require('yahoo-finance');
+let stocklib = require('../lib/stock');
+
 require('songbird');
 
-async function lookupTicker(symbols){
-    return await yahooFinance.promise.snapshot({
-      symbols: symbols,
-      fields: ['s', 'n', 'd1', 'l1', 'y', 'r','c1', 'p2'],
-    })
-}
-
 async function getWatchlist(req, res) {
-  let stocks = await Stock.promise.find({ email: req.user.email });
-  let watchlist = []
-  if (stocks && stocks.length > 0){
-    let stocklist = stocks.map( stock =>{
-      return stock.symbol
-    })
-    watchlist = await lookupTicker(stocklist);
-  }
+  let watchlist = await stocklib.fetchStockQuotes(req.user.email);
   res.render('watchlist.ejs', {
     watchlist: watchlist,
     message: req.flash('error')
   })
-}
-
-async function fetchStockQuotes(req, res) {
-  let users = await User.promise.find({});
-  let quotes = []
-
-  if (users && users.length > 0){
-    let emailList = users.map( user =>{
-      return user.email
-    })
-
-    for (email in emailList) {
-      let stocks = await Stock.promise.find({ email: req.user.email });
-      if (stocks && stocks.length > 0){
-        let stocklist = stocks.map( stock =>{
-          return stock.symbol
-        })
-        quotes = await lookupTicker(stocklist);
-      }
-    }
-  }
-  return quotes
 }
 
 async function getEdit(req, res) {

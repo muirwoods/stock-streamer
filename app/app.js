@@ -108,7 +108,7 @@ class App {
       }
      
       let intervalId = setInterval(async ()=> {
-        console.log("Invoking fetchStockQuotes...")
+        console.log("Invoking fetchStockQuotes for ", email)
         let watchlist = await fetchStockQuotes(email)
         console.log("No of connected clients: ", this.io.sockets.sockets.length)
         console.log('iddddddddd', socket.id)

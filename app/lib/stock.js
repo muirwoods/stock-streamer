@@ -6,11 +6,14 @@ require('songbird');
 
 async function fetchStockQuotes(email) {
   let quotes = []
-
   let stocks = await Stock.promise.find({ email : email});
   if (stocks && stocks.length > 0){
-    quotes = await lookupTicker(stocks)
+    let stocklist = stocks.map( stock =>{
+      return stock.symbol
+    })
+    quotes = await lookupTicker(stocklist)
   }
+
   return quotes
 }
 
