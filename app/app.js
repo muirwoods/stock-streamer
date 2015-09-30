@@ -6,6 +6,7 @@ let morgan = require('morgan')
 let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let session = require('express-session')
+let MongoStore = require('connect-mongo')(session)
 let mongoose = require('mongoose')
 let flash = require('connect-flash')
 let io = require('socket.io')
@@ -38,6 +39,7 @@ class App {
 
     this.sessionMiddleware = session({
       secret: 'ilovethenodejs',
+      store: new MongoStore({db: 'stockstream'}),
       resave: true,
       saveUninitialized: true
     })
@@ -97,7 +99,6 @@ class App {
       console.log('a user connected')
 
       socket.on('disconnect', () => clearInterval(intervalId))
-
       let email
       if (socket.request.user) {
         email = socket.request.user.email
