@@ -18,6 +18,9 @@ async function fetchStockQuotes(email) {
     quotes = quotes.map( quote =>{
       let s = stockMap[quote.symbol]
       let gain = (quote.lastTradePriceOnly - s.purchasePrice) / s.purchasePrice * 100
+      let value = quote.lastTradePriceOnly * s.qty
+      let cost = s.purchasePrice * s.qty
+      let value_gains = value - cost
       return {
         symbol: quote.symbol,
         name: quote.name,
@@ -29,7 +32,10 @@ async function fetchStockQuotes(email) {
         change: quote.change,
         purchasePrice: s.purchasePrice,
         qty: s.qty,
-        gains: gain
+        gainPct: gain,
+        value: value,
+        cost: cost,
+        valueGain: value_gains
       }
     })
   }

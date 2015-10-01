@@ -21,7 +21,7 @@
         </br>
         </br>
         <% if (stocks && stocks.length > 0){ %>
-        <table border=2 width="100%">
+        <table border=2 width="100%" style="font-size:12px;">
             <th width="15%">Ticker</th>
             <th >Purchase Price</th>
             <th >Quantity</th>
@@ -32,11 +32,11 @@
             <tr>
                 <td align='left'><span class="fa"><%= stock.symbol %></span></td>
                 <form method="post" action="/edit/<%=stock._id%>">
-                    <td align='left'><input class="form-control" type="text" name="purchasePrice" value="<%= stock.purchasePrice.toFixed(2) %>"</td>
-                    <td align='left'><input class="form-control" type="text" name="qty" value="<%= stock.qty %>"</td>
-                    <td align='left'><button type="submit" style="width:100px;" class="btn btn-default">Save</button></td>
+                    <td align='left'><input style="height:30px;" class="form-control" type="text" name="purchasePrice" value="<%= stock.purchasePrice.toFixed(2) %>"</td>
+                    <td align='left' ><input style="height:30px;" class="form-control" type="text" name="qty" value="<%= stock.qty %>"</td>
+                    <td align='left' style="width:100px;"><button type="submit" style="width:100px;" class="btn btn-default btn-sm">Save</button></td>
                 </form>
-                <td><a href="/delete/<%=stock._id%>" style="width:100px;" class="btn btn-default">Delete</a></td>
+                <td style="width:100px;"><a href="/delete/<%=stock._id%>" style="width:100px;" class="btn btn-default btn-sm">Delete</a></td>
             </tr>               
         <%   } %>
         <% } %>
