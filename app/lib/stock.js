@@ -8,17 +8,16 @@ async function fetchStockQuotes(email) {
   let quotes = []
   let stocks = await Stock.promise.find({ email : email});
   let stockMap = {}
-  stocks.forEach(stock=>{
-    stockMap[stock.symbol] = stock
-  })
+
   if (stocks && stocks.length > 0){
-    let stocklist = stocks.map( stock =>{
-      return stock.symbol
+    // create a map to lookup later
+    stocks.forEach(stock=>{
+      stockMap[stock.symbol] = stock
     })
-    quotes = await lookupTicker(stocklist)
+    quotes = await lookupTicker( Object.keys(stockMap) )
     quotes = quotes.map( quote =>{
       let s = stockMap[quote.symbol]
-      let gain = (s.purchasePrice - quote.lastTradePriceOnly) / s.purchasePrice * 100
+      let gain = (quote.lastTradePriceOnly - s.purchasePrice) / s.purchasePrice * 100
       return {
         symbol: quote.symbol,
         name: quote.name,
