@@ -13,17 +13,30 @@
 
     <div class="jumbotron text-center" style="width:70%">
         <h2>Edit Watchlist</h2>
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%= message %></div>
+        <% } %>
         <a href="/watchlist" style="width:100px;" class="btn btn-default btn-sm">Watchlist</a>
         <a href="/add" style="width:100px;" class="btn btn-default btn-sm">Add Ticker</a>
         </br>
         </br>
         <% if (stocks && stocks.length > 0){ %>
-        <table border=2 width="100%">
+        <table border=2 width="100%" style="font-size:12px;">
+            <th width="15%">Ticker</th>
+            <th >Purchase Price</th>
+            <th >Quantity</th>
+            <th >&nbsp;</th>
+            <th >&nbsp;</th>
         <%   for( var i = 0; i < stocks.length; i++) { %>
         <%       var stock = stocks[i]; %>
             <tr>
-                <td width="65%" align='left'><span class="fa"><%= stock.symbol %></span></td>
-                <td><a href="/delete/<%=stock._id%>" style="width:100px;" class="btn btn-default btn-sm">Delete</a></td>
+                <td align='left'><span class="fa"><%= stock.symbol %></span></td>
+                <form method="post" action="/edit/<%=stock._id%>">
+                    <td align='left'><input style="height:30px;" class="form-control" type="text" name="purchasePrice" value="<%= stock.purchasePrice.toFixed(2) %>"</td>
+                    <td align='left' ><input style="height:30px;" class="form-control" type="text" name="qty" value="<%= stock.qty %>"</td>
+                    <td align='left' style="width:100px;"><button type="submit" style="width:100px;" class="btn btn-default btn-sm">Save</button></td>
+                </form>
+                <td style="width:100px;"><a href="/delete/<%=stock._id%>" style="width:100px;" class="btn btn-default btn-sm">Delete</a></td>
             </tr>               
         <%   } %>
         <% } %>

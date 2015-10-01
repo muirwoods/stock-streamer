@@ -7,11 +7,37 @@ require('songbird');
 async function fetchStockQuotes(email) {
   let quotes = []
   let stocks = await Stock.promise.find({ email : email});
+  let stockMap = {}
+
   if (stocks && stocks.length > 0){
-    let stocklist = stocks.map( stock =>{
-      return stock.symbol
+    // create a map to lookup later
+    stocks.forEach(stock=>{
+      stockMap[stock.symbol] = stock
     })
-    quotes = await lookupTicker(stocklist)
+    quotes = await lookupTicker( Object.keys(stockMap) )
+    quotes = quotes.map( quote =>{
+      let s = stockMap[quote.symbol]
+      let gain = (quote.lastTradePriceOnly - s.purchasePrice) / s.purchasePrice * 100
+      let value = quote.lastTradePriceOnly * s.qty
+      let cost = s.purchasePrice * s.qty
+      let value_gains = value - cost
+      return {
+        symbol: quote.symbol,
+        name: quote.name,
+        lastTradeDate: quote.lastTradeDate,
+        lastTradePriceOnly: quote.lastTradePriceOnly,
+        changeInPercent: quote.changeInPercent,
+        dividendYield: quote.dividendYield,
+        peRatio: quote.peRatio,
+        change: quote.change,
+        purchasePrice: s.purchasePrice,
+        qty: s.qty,
+        gainPct: gain,
+        value: value,
+        cost: cost,
+        valueGain: value_gains
+      }
+    })
   }
 
   return quotes
@@ -24,4 +50,12 @@ async function lookupTicker(symbols){
     })
 }
 
-module.exports = {fetchStockQuotes,lookupTicker}
+async function isValidTicker(symbol){
+    let [valid] = await lookupTicker([symbol])
+    if (valid.name){
+      return true
+    }
+    return false
+}
+
+module.exports = {fetchStockQuotes,isValidTicker}

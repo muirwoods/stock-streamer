@@ -9,6 +9,12 @@ let StockSchema = mongoose.Schema({
     },
     email: {
         type: String
+    },
+    purchasePrice: {
+        type: Number
+    },
+    qty: {
+        type: Number
     }
 });
 
