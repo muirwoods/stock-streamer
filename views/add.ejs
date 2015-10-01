@@ -19,10 +19,24 @@
 
                 <!-- LOGIN FORM -->
                 <form action="/add" method="post">
+                                        <center>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="symbol">
+                        <table border=0>
+                            <tr>
+                                <td>Symbol:</td>
+                                <td><input type="text" class="form-control" name="symbol"></td>
+                            </tr>
+                            <tr>
+                                <td>Purchase Price:</td>
+                                <td><input type="text" class="form-control" name="purchasePrice"></td>
+                            </tr>
+                            <tr>
+                                <td>Quantity:</td>
+                                <td><input type="text" class="form-control" name="qty"></td>
+                            </tr>
+                        </table>
                     </div>
-                    <center>
+
                         <a href="/edit" style="width:100px;" class="btn btn-default btn-sm">Cancel</a>
                         <button type="submit" style="width:100px;" class="btn btn-default btn-sm">Ok</button>
                     </center>

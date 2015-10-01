@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 
-    <div class="jumbotron text-center" style="width:70%">
+    <div class="jumbotron text-center" style="width:100%">
         <h2>Watchlist</h2>
         <a href="#" onclick="if(window.socketio.connected){
               document.getElementById('spbutton').innerHTML = 'Resume Streaming';
@@ -30,15 +30,19 @@
         </br>
         <% if (watchlist && watchlist.length > 0){ %>
         <table border=2 width="100%" id="stocktable">
-            <th width="15%">Ticker</th>
-            <th width="55%">Name</th>
-            <th>Price</th>
+            <th>Ticker</th>
+            <th>Name</th>
+            <th>Market Price (chg%)</th>
+            <th>Purchase Price (gain%)</th>
+            <th>Quantity</th>
         <%   for( var i = 0; i < watchlist.length; i++) { %>
         <%       var stock = watchlist[i]; %>
             <tr>
                 <td align='left'><span class="fa"><%= stock.symbol %></span></td>
                 <td align='left'><span class="fa"><%= stock.name %></span></td>
                 <td align='left'><span class="fa"><%= stock.lastTradePriceOnly %> (<%=stock.changeInPercent.toFixed(4)%>%)</span></td>
+                <td align='left'><span class="fa" <% if (stock.gains < 0) {%> style='color:red'<%}%> > <%= stock.purchasePrice.toFixed(2) %> (<%=stock.gains.toFixed(4)%>%)</span></td>
+                <td align='left'><span class="fa"><%= stock.qty %></span></td>
             </tr>               
         <%   } %>
         <% } %>
