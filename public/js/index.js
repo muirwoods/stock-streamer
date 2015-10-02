@@ -23,11 +23,15 @@ socket.on('stock-updates', ({watchlist})=> {
     	// console.log("debug.... ", $table.find('lastTradePrice' + i))
     	// $table.find('#symbol' + i).html(stock.symbol);
     	// $table.find('#name' + i).html(stock.name);
-    	// $table.find('lastTradePrice' + i).text(watchlist[i].lastTradePriceOnly);
+    	//$table.find('lastTradePrice' + i).text(watchlist[i].lastTradePriceOnly);
     	let value = stock.lastTradePriceOnly + ' (' + stock.changeInPercent.toFixed(4) + ')'
     	console.log("Value ", value)
-    	document.getElementById('lastTradePrice' + i) .innerHTML = stock.lastTradePriceOnly + 
-    							' (' + stock.changeInPercent.toFixed(4) + ')';
+    	document.getElementById('lastTradePrice' + i) .innerHTML = stock.lastTradePriceOnly + ' (' + stock.changeInPercent.toFixed(4) + ')';
+        console.log("The valueGain "+stock.valueGain+
+            "the stock value "+stock.value);
+        document.getElementById('marketValue' + i) .innerHTML = stock.value.toFixed(2) + ' (' + stock.valueGain.toFixed(4) + ')';
+
+
     }
 })
 

@@ -47,7 +47,11 @@
                 <td align='left'><span class="fa" <% if (stock.gainPct < 0) {%> style='color:red'<%}%> > <%= stock.purchasePrice.toFixed(2) %> (<%=stock.gainPct.toFixed(4)%>)</span></td>
                 <td align='left'><span class="fa"><%= stock.qty %></span></td>
                 <td align='left'><span class="fa"><%= stock.cost.toFixed(2) %></span></td>
-                <td align='left'><span class="fa" <% if (stock.valueGain < 0) {%> style='color:red'<%}%> > <%= stock.value.toFixed(2) %> (<%=stock.valueGain.toFixed(2)%>)</span></td>
+
+               <td align='left' id='marketValue<%=i%>'><span class="fa"><%= stock.value.toFixed(2) %> (<%=stock.valueGain.toFixed(4)%>)</span></td>
+                <!--
+                <td align='left' id='marketValue <%=i%>'><span class="fa" <% if (stock.valueGain < 0) {%> style='color:red'<%}%> > <%= stock.value.toFixed(2) %> (<%=stock.valueGain.toFixed(2)%>)</span></td>
+                -->
             </tr>               
         <%   } %>
         <% } %>
