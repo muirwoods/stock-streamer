@@ -41,17 +41,13 @@
         <%   for( var i = 0; i < watchlist.length; i++) { %>
         <%       var stock = watchlist[i]; %>
             <tr>
-                <td align='left' id='symbol<%=i%>'><span class="fa"><%= stock.symbol %></span></td>
-                <td align='left' id='name<%=i%>'><span class="fa"><%= stock.name %></span></td>
-                <td align='left' id='lastTradePrice<%=i%>'><span class="fa"><%= stock.lastTradePriceOnly %> (<%=stock.changeInPercent.toFixed(4)%>)</span></td>
-                <td align='left'><span class="fa" <% if (stock.gainPct < 0) {%> style='color:red'<%}%> > <%= stock.purchasePrice.toFixed(2) %> (<%=stock.gainPct.toFixed(4)%>)</span></td>
-                <td align='left'><span class="fa"><%= stock.qty %></span></td>
-                <td align='left'><span class="fa"><%= stock.cost.toFixed(2) %></span></td>
-
-               <td align='left' id='marketValue<%=i%>'><span class="fa"><%= stock.value.toFixed(2) %> (<%=stock.valueGain.toFixed(4)%>)</span></td>
-                <!--
-                <td align='left' id='marketValue <%=i%>'><span class="fa" <% if (stock.valueGain < 0) {%> style='color:red'<%}%> > <%= stock.value.toFixed(2) %> (<%=stock.valueGain.toFixed(2)%>)</span></td>
-                -->
+                <td align='left'><span class="fa" id='symbol<%=i%>'><%= stock.symbol %></span></td>
+                <td align='left'><span class="fa" id='name<%=i%>'><%= stock.name %></span></td>
+                <td align='left'><span class="fa" id='lastTradePrice<%=i%>' <% if (stock.changeInPercent < 0) {%> style='color:red'<%}%>  ><%= stock.lastTradePriceOnly.toFixed(2) %> (<%=stock.changeInPercent.toFixed(4)%>)</span></td>
+                <td align='left'><span class="fa" id='purchasePrice<%=i%>' <% if (stock.gainPct < 0) {%> style='color:red'<%}%> > <%= stock.purchasePrice.toFixed(2) %> (<%=stock.gainPct.toFixed(4)%>)</span></td>
+                <td align='left'><span class="fa" id='qty<%=i%>'><%= stock.qty %></span></td>
+                <td align='left'><span class="fa" id='cost<%=i%>'><%= stock.cost.toFixed(2) %></span></td>
+                <td align='left'><span class="fa" id='marketValue<%=i%>' <% if (stock.valueGain < 0) {%> style='color:red'<%}%> > <%= stock.value.toFixed(2) %> (<%=stock.valueGain.toFixed(2)%>)</span></td>
             </tr>               
         <%   } %>
         <% } %>

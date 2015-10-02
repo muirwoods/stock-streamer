@@ -19,21 +19,34 @@ socket.on('stock-updates', ({watchlist})=> {
     let $table = $template.clone().show()
     for( let i = 0; i < watchlist.length; i++) { 
     	let stock = watchlist[i]; 
-    	console.log("i ", i ," stock.price: ", watchlist[i].lastTradePriceOnly)
-    	// console.log("debug.... ", $table.find('lastTradePrice' + i))
-    	// $table.find('#symbol' + i).html(stock.symbol);
-    	// $table.find('#name' + i).html(stock.name);
-    	//$table.find('lastTradePrice' + i).text(watchlist[i].lastTradePriceOnly);
-    	let value = stock.lastTradePriceOnly + ' (' + stock.changeInPercent.toFixed(4) + ')'
-    	console.log("Value ", value)
-    	document.getElementById('lastTradePrice' + i) .innerHTML = stock.lastTradePriceOnly + ' (' + stock.changeInPercent.toFixed(4) + ')';
-        console.log("The valueGain "+stock.valueGain+
-            "the stock value "+stock.value);
-        document.getElementById('marketValue' + i) .innerHTML = stock.value.toFixed(2) + ' (' + stock.valueGain.toFixed(4) + ')';
+        $('#symbol'+i).text(stock.symbol)
+        $('#name'+i).text(stock.name)
 
+        let lastTradePrice = stock.lastTradePriceOnly.toFixed(2) + ' (' + stock.changeInPercent.toFixed(4) + ')'
+        $('#lastTradePrice'+i).text(lastTradePrice)
+
+        if (stock.changeInPercent < 0){
+           $('#lastTradePrice'+i).css('color', 'red') 
+        }
+
+        let purchasePrice = stock.purchasePrice.toFixed(2)  + ' (' + stock.gainPct.toFixed(4) + ')'
+        $('#purchasePrice'+i).text(purchasePrice)
+        if (stock.gainPct < 0){
+           $('#purchasePrice'+i).css('color', 'red') 
+        }
+        $('#qty'+i).text(stock.qty)
+        $('#cost'+i).text(stock.cost.toFixed(2))
+        
+        let marketValue = stock.value.toFixed(2)  + ' (' + stock.valueGain.toFixed(2) + ')'
+        console.log(stock.symbol, marketValue)
+        $('#marketValue'+i).text(marketValue)
+        if (stock.valueGain < 0){
+           $('#marketValue'+i).css('color', 'red') 
+        }
 
     }
 })
+
 
 
 window.socketio = socket
