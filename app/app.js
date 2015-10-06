@@ -115,10 +115,9 @@ class App {
         console.log("Invoking fetchStockQuotes for ", email)
         let watchlist = await fetchStockQuotes(email)
         console.log("No of connected clients: ", this.io.sockets.sockets.length)
-        console.log('iddddddddd', socket.id)
-        console.log('wwwwwwwwwwatttt', watchlist)
+        console.log('watchList', watchlist)
         this.io.to(socket.id).emit('stock-updates', {watchlist})
-      }, 15000)
+      }, 10000)
 
     })
     console.log("SetupIO done!")

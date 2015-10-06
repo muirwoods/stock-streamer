@@ -17,6 +17,14 @@ async function fetchStockQuotes(email) {
     quotes = await lookupTicker( Object.keys(stockMap) )
     quotes = quotes.map( quote =>{
       let s = stockMap[quote.symbol]
+
+      // to make it random, just uncomment the 3 lines of code below
+      //
+      let change = Math.random() * (Math.floor(Math.random()*2) == 1 ? 1 : -1)
+      quote.changeInPercent = quote.changeInPercent + (change / quote.lastTradePriceOnly * 100)
+      quote.lastTradePriceOnly = quote.lastTradePriceOnly + change
+
+
       let gain = (quote.lastTradePriceOnly - s.purchasePrice) / s.purchasePrice * 100
       let value = quote.lastTradePriceOnly * s.qty
       let cost = s.purchasePrice * s.qty

@@ -25,14 +25,19 @@ socket.on('stock-updates', ({watchlist})=> {
         let lastTradePrice = stock.lastTradePriceOnly.toFixed(2) + ' (' + stock.changeInPercent.toFixed(4) + ')'
         $('#lastTradePrice'+i).text(lastTradePrice)
 
-        if (stock.changeInPercent < 0){
+
+        if (stock.changeInPercent < 0){           
            $('#lastTradePrice'+i).css('color', 'red') 
+        }else{
+            $('#lastTradePrice'+i).css('color', '') 
         }
 
         let purchasePrice = stock.purchasePrice.toFixed(2)  + ' (' + stock.gainPct.toFixed(4) + ')'
         $('#purchasePrice'+i).text(purchasePrice)
         if (stock.gainPct < 0){
            $('#purchasePrice'+i).css('color', 'red') 
+        }else{
+            $('#purchasePrice'+i).css('color', '') 
         }
         $('#qty'+i).text(stock.qty)
         $('#cost'+i).text(stock.cost.toFixed(2))
@@ -42,6 +47,8 @@ socket.on('stock-updates', ({watchlist})=> {
         $('#marketValue'+i).text(marketValue)
         if (stock.valueGain < 0){
            $('#marketValue'+i).css('color', 'red') 
+        }else{
+            $('#marketValue'+i).css('color', '') 
         }
 
     }
