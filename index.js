@@ -5,6 +5,7 @@ let configs = requireDir('./config', {recurse: true})
 let _ = require('lodash')
 let trycatch = require('trycatch')
 let App = require('./app/app')
+let {demo} = require('yargs').argv;
 
 const PORT = process.env.PORT || 8000
 const NODE_ENV = process.env.NODE_ENV || 'development'
@@ -12,7 +13,6 @@ const NODE_ENV = process.env.NODE_ENV || 'development'
 if (NODE_ENV === 'development') {
   trycatch.configure({'long-stack-traces': true})
 }
-
 process.on('uncaughtException', _.compose(onError, process.exit))
 process.on('unhandledRejection', onError)
 process.on('uncaughtApplicationException', onError)
@@ -25,7 +25,8 @@ function onError(err) {
 }
 
 let app = new App({
-  database: configs.database[NODE_ENV]
+  database: configs.database[NODE_ENV],
+  demo: demo
 })
 
 app.initialize(PORT)

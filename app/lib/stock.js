@@ -4,7 +4,7 @@ let yahooFinance = require('yahoo-finance');
 let HashMap = require('hashmap')
 require('songbird');
 
-async function fetchStockQuotes(email) {
+async function fetchStockQuotes(email, demoMode) {
   let quotes = []
   let stocks = await Stock.promise.find({ email : email});
   let stockMap = {}
@@ -18,12 +18,11 @@ async function fetchStockQuotes(email) {
     quotes = quotes.map( quote =>{
       let s = stockMap[quote.symbol]
 
-      // to make it random, just uncomment the 3 lines of code below
-      //
-      // let change = Math.random() * (Math.floor(Math.random()*2) == 1 ? 1 : -1)
-      // quote.changeInPercent = quote.changeInPercent + (change / quote.lastTradePriceOnly * 100)
-      // quote.lastTradePriceOnly = quote.lastTradePriceOnly + change
-
+      if (demoMode){
+        let change = Math.random() * (Math.floor(Math.random()*2) == 1 ? 1 : -1)
+        quote.changeInPercent = quote.changeInPercent + (change / quote.lastTradePriceOnly * 100)
+        quote.lastTradePriceOnly = quote.lastTradePriceOnly + change
+      }
 
       let gain = (quote.lastTradePriceOnly - s.purchasePrice) / s.purchasePrice * 100
       let value = quote.lastTradePriceOnly * s.qty
