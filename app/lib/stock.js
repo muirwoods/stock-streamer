@@ -20,9 +20,9 @@ async function fetchStockQuotes(email) {
 
       // to make it random, just uncomment the 3 lines of code below
       //
-      let change = Math.random() * (Math.floor(Math.random()*2) == 1 ? 1 : -1)
-      quote.changeInPercent = quote.changeInPercent + (change / quote.lastTradePriceOnly * 100)
-      quote.lastTradePriceOnly = quote.lastTradePriceOnly + change
+      // let change = Math.random() * (Math.floor(Math.random()*2) == 1 ? 1 : -1)
+      // quote.changeInPercent = quote.changeInPercent + (change / quote.lastTradePriceOnly * 100)
+      // quote.lastTradePriceOnly = quote.lastTradePriceOnly + change
 
 
       let gain = (quote.lastTradePriceOnly - s.purchasePrice) / s.purchasePrice * 100
