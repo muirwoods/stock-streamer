@@ -115,7 +115,7 @@ class App {
         console.log("Invoking fetchStockQuotes for ", email)
         let watchlist = await fetchStockQuotes(email, this.config.demo)
         console.log("No of connected clients: ", this.io.sockets.sockets.length)
-        console.log('watchList', watchlist)
+       // console.log('watchList', watchlist)
         this.io.to(socket.id).emit('stock-updates', {watchlist})
       }, 10000)
 

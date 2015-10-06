@@ -36,10 +36,7 @@ function configure() {
     passReqToCallback: true
   }, nodeifyit(async (req, email, password) => {
     email = (email || '').toLowerCase()
-    // Has user signed up already?
-    if(req.user && req.user.email) {
-      return [false, {message: 'You have already signed up.'}]
-    }
+
     if (await User.findOne({'email': email}).exec()) {
       return [false, {message: 'That email is already taken.'}]
     }
